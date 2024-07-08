@@ -43,9 +43,11 @@ https://tinygo.org/getting-started/
 
 ![welcome to Badger2040](./assets/welcome.jpg)
 
-Plug the Badger2040 into your computer using a USB cable. There may be one provided in your starter kit.
+Plug the Badger2040 into your computer using a USB cable while pressing the white BOOTSEL button on the Raspberry Pi Pico. It should appear as a USB mass storage device.
 
 ![usb](./assets/usb.png)
+
+You can follow the instructions at the [Badger2040 GopherBadge](https://gopherbadge.com/badger2040/) webpage to quickly get it working with an image and name of your choice.
 
 ## Running the code
 
