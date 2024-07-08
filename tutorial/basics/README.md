@@ -47,6 +47,8 @@ Plug the Badger2040 into your computer using a USB cable while pressing the whit
 
 ![usb](./assets/usb.png)
 
+## Quick setup
+
 You can follow the instructions at the [Badger2040 GopherBadge](https://gopherbadge.com/badger2040/) webpage to quickly get it working with an image and name of your choice.
 
 ## Running the code
