@@ -1,6 +1,6 @@
 package main
 
-import "golang.org/toolchain/src/fmt"
+import "fmt"
 
 func main() {
 	fmt.Println("Keep for compatibility issues")

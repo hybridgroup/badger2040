@@ -1,6 +1,6 @@
 package main
 
-import "golang.org/toolchain/src/encoding/base64"
+import "encoding/base64"
 
 // Replace with your data by using -ldflags like this:
 //
