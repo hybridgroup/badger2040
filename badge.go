@@ -30,6 +30,7 @@ func profile() {
 		if btnA.Get() || btnB.Get() || btnC.Get() || btnUp.Get() || btnDown.Get() {
 			break
 		}
+		time.Sleep(200 * time.Millisecond)
 	}
 }
 
@@ -51,7 +52,7 @@ func demo() {
 
 func badgeProfile() {
 	display.ClearBuffer()
-	midW := int16(176)
+	midW := int16(167)
 	if profileErr == nil {
 		img := pixel.NewImageFromBytes[pixel.Monochrome](128, 128, []byte(profileImg))
 		if err := display.DrawBitmap(168, 0, img); err != nil {
