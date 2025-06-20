@@ -50,7 +50,12 @@ func demo() {
 }
 
 func badgeProfile() {
+	display.ClearDisplay()
+	showRect(0, 0, WIDTH, 15, black)
+	showRect(0, 15, WIDTH, 15, white)
+	display.Display()
 	display.ClearBuffer()
+
 	midW := int16(176)
 	if profileErr == nil {
 		img := pixel.NewImageFromBytes[pixel.Monochrome](120, 128, []byte(profileImg))
