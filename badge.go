@@ -2,6 +2,7 @@ package main
 
 import (
 	"image/color"
+	"machine"
 	"math/rand"
 
 	"github.com/conejoninja/badger2040/tetris"
@@ -27,7 +28,20 @@ func profile() {
 
 	badgeProfile()
 	for {
-		if btnA.Get() || btnB.Get() || btnC.Get() || btnUp.Get() || btnDown.Get() {
+		// up shows profile pic
+		if btnUp.Get() {
+			drawProfileImage()
+			display.Display()
+			continue
+		}
+		// down shows qr code
+		if btnDown.Get() {
+			QRPos(WIDTH-120, 0, 120, 128, YourBadgeQR)
+			display.Display()
+			continue
+		}
+
+		if btnA.Get() || btnB.Get() || btnC.Get() {
 			break
 		}
 	}
@@ -52,12 +66,7 @@ func demo() {
 func badgeProfile() {
 	display.ClearBuffer()
 	midW := int16(176)
-	if profileErr == nil {
-		img := pixel.NewImageFromBytes[pixel.Monochrome](120, 128, []byte(profileImg))
-		if err := display.DrawBitmap(176, 0, img); err != nil {
-			println(err)
-		}
-	}
+	drawProfileImage()
 
 	showRect(0, 0, midW, 30, black)
 	tinydraw.Line(&display, 0, 0, 295, 0, black)
@@ -100,6 +109,15 @@ func badgeProfile() {
 	}
 	display.Display()
 	display.WaitUntilIdle()
+}
+
+func drawProfileImage() {
+	if profileErr == nil {
+		img := pixel.NewImageFromBytes[pixel.Monochrome](120, 128, []byte(profileImg))
+		if err := display.DrawBitmap(176, 0, img); err != nil {
+			println(err)
+		}
+	}
 }
 
 func showRect(x int16, y int16, w int16, h int16, c color.RGBA) {
@@ -413,7 +431,47 @@ func tainigoLogo() {
 	display.WaitUntilIdle()
 }
 
+func usbLogo() {
+	display.ClearBuffer()
+
+	img := pixel.NewImageFromBytes[pixel.Monochrome](246, 128, []byte(usb))
+	if err := display.DrawBitmap(32, 0, img); err != nil {
+		println(err)
+	}
+
+	display.Display()
+	display.WaitUntilIdle()
+}
+
+func enterFlashingMode() {
+	display.ClearBuffer()
+	display.Display()
+	usbLogo()
+	machine.EnterBootloader()
+}
+
+func wifiQR() {
+	display.ClearBuffer()
+	// calling display again allows for a cleaner background for the QR code
+	// can be removed if the extra update feels unnecessary
+	display.Display()
+	QR(YourWifiQR)
+	display.Display()
+	for {
+		if btnA.Get() || btnB.Get() || btnC.Get() || btnUp.Get() || btnDown.Get() {
+			break
+		}
+	}
+}
+
 func QR(msg string) {
+	display.ClearBuffer()
+	QRPos(0, 0, WIDTH, HEIGHT, msg)
+}
+
+// QRPos draws a QR code starting at a given xy coord (xp, yp)
+// where the size is determined by width and height
+func QRPos(xp, yp, width, height int16, msg string) {
 	qr, err := qrcode.New(msg, qrcode.Medium)
 	if err != nil {
 		println(err, 123)
@@ -422,11 +480,12 @@ func QR(msg string) {
 	qrbytes := qr.Bitmap()
 	size := int16(len(qrbytes))
 
-	factor := int16(HEIGHT / len(qrbytes))
+	factor := int16(int(height) / len(qrbytes))
 
-	bx := (WIDTH - size*factor) / 2
-	by := (HEIGHT - size*factor) / 2
-	display.ClearBuffer()
+	bx := xp + (width-size*factor)/2
+	by := yp + (height-size*factor)/2
+	// clearing out the area where the QR is drawn
+	tinydraw.FilledRectangle(&display, xp, yp, width, height, white)
 	for y := int16(0); y < size; y++ {
 		for x := int16(0); x < size; x++ {
 			if qrbytes[y][x] {

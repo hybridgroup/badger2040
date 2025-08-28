@@ -67,6 +67,12 @@ func main() {
 		case 3:
 			demo()
 			break
+		case 4:
+			wifiQR()
+			break
+		case 5:
+			enterFlashingMode()
+			break
 		default:
 			break
 		}

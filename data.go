@@ -9,6 +9,8 @@ import "encoding/base64"
 // See Makefile for more info.
 var (
 	YourName, YourCompany, YourTitle, YourSocial, ProfilePic string
+	// QR data
+	YourBadgeQR, YourWifiQR string
 )
 
 var profileImg []uint8

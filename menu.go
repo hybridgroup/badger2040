@@ -15,6 +15,8 @@ func menu() int16 {
 		"GopherCon Schedule",
 		"GopherCon Adventure",
 		"Demo",
+		"Wifi QR",
+		"Flashing mode (UF2)",
 	}
 
 	display.ClearBuffer()
